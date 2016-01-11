@@ -75,6 +75,7 @@ var argv = yargs.usage("Usage: cut-release [increment] [options]\n\nSupported in
 
 var version = argv._[0],
     confirm = argv.yes,
+    confirmBranch = argv.confirmBranch,
     tag = argv.tag,
     preid = argv.preid,
     dryRun = argv.d
@@ -309,11 +310,11 @@ var prompts = [
       return msg
     },
     when: function (answers) {
-      if (answers.branch === 'master') {
+      if (confirmBranch || answers.branch === 'master') {
         answers.confirmBranch = true
       }
 
-      return answers.branch !== 'master'
+      return !confirmBranch && answers.branch !== 'master'
     }
   },
   {
