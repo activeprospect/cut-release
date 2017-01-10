@@ -445,7 +445,7 @@ function ensureCleanGit (answers, callback) {
   }
 
   function checkLocalUpToDate (callback) {
-    var parts = answers.remote.split('/')
+    var parts = answers.remote.split(/\/(.+)/)
     var remote = parts[0],
       branch = parts[1]
 
@@ -514,7 +514,7 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
         var remote = '',
           branch = ''
         if (answers.remote) {
-          var remoteParts = answers.remote.split('/').map(function (part) {
+          var remoteParts = answers.remote.split(/\/(.+)/).map(function (part) {
             return ' ' + part;
           })
           remote = remoteParts[0]
