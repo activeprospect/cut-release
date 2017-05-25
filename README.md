@@ -18,6 +18,8 @@ A command line tool that helps you make faster NPM releases.
 
 ### Usage
 
+**This should be run from the master branch of your repo after you merge your feature branch.**
+
 To see usage documentation, run `cut-release --help`:
 
 ```
