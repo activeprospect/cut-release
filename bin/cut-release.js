@@ -149,7 +149,7 @@ var prompts = [
         return false
       }
       var done = this.async()
-      exec('npm show . versions', function (err, stdout) {
+      exec('npm show --json . versions', function (err, stdout) {
         if (err) return done(err)
         var semvers = JSON.parse(stdout.replace(/'/g, '"')).map(function(version) {
           return semver.parse(version.replace(/[^0-9.a-z\-]/g, ''))
