@@ -209,7 +209,8 @@ var prompts = [
       var done = this.async()
       exec('npm dist-tag ls', function (err, stdout) {
         if (err) {
-          throw err
+          if (err.stack.indexOf('No dist-tags found') === -1)
+            throw err;
         }
         var choices = stdout.split('\n').map(function (line) {
           return line.split(':')[0].replace(/^\s|\s$/, '')
