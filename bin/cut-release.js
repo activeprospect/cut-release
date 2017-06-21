@@ -11,6 +11,7 @@ var path = require('path')
 var exec = require('child_process').exec
 var spawn = require('child_process').spawn
 var async = require('async')
+var array = require('ensure-array')
 
 var SEMVER_INCREMENTS = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'premajor', 'prerelease']
 
@@ -151,7 +152,7 @@ var prompts = [
       var done = this.async()
       exec('npm show --json . versions', function (err, stdout) {
         if (err) return done(err)
-        var semvers = JSON.parse(stdout.replace(/'/g, '"')).map(function(version) {
+        var semvers = array(JSON.parse(stdout.replace(/'/g, '"'))).map(function(version) {
           return semver.parse(version.replace(/[^0-9.a-z\-]/g, ''))
         }).filter(function(sver) {
           return sver && sver.prerelease && sver.prerelease.length > 1
