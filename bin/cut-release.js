@@ -76,6 +76,7 @@ var argv = yargs.usage("Usage: cut-release [increment] [options]\n\nSupported in
 
 var version = argv._[0],
     confirm = argv.yes,
+    confirmBranch = argv.confirmBranch,
     tag = argv.tag,
     preid = argv.preid,
     dryRun = argv.d
@@ -301,6 +302,25 @@ var prompts = [
   },
   {
     type: 'confirm',
+    name: 'confirmBranch',
+    message: function (answers) {
+      var msg = 'Not on \'master\' branch; actually on branch \'' + answers.branch + '\'. Continue'
+      if (dryRun) {
+        msg += ' with dry run'
+      }
+      msg += '?'
+      return msg
+    },
+    when: function (answers) {
+      if (confirmBranch || answers.branch === 'master') {
+        answers.confirmBranch = true
+      }
+
+      return !confirmBranch && answers.branch !== 'master'
+    }
+  },
+  {
+    type: 'confirm',
     name: 'confirm',
     message: function (answers) {
       var msg = 'Will bump from ' + pkg.version + ' to ' + maybeInc(answers.version, answers.preid) + ' and tag as ' + answers.tag + '. Continue'
@@ -314,7 +334,7 @@ var prompts = [
       if (confirm) {
         answers.confirm = confirm
       }
-      return !confirm
+      return !confirm && answers.confirmBranch
     }
   }
 ]
@@ -509,7 +529,7 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
 
     log('')
     inquirer.prompt(prompts, function (answers) {
-      if (!answers.confirm) {
+      if (!answers.confirmBranch || !answers.confirm) {
         process.exit(0)
       }
       ensureCleanGit(answers, function () {
