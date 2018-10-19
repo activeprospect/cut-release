@@ -531,12 +531,14 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
 
         var newVersion = maybeInc(answers.version, answers.preid)
 
+        console.log('argv: ', argv)
+
         var commands = [
           'npm version ' + newVersion + (argv.message ? ' --message ' + argv.message : ''),
           answers.setRemote && 'git branch -u ' + answers.remote,
           answers.remote && 'git push' + remote + branch,
           answers.remote && 'git push' + remote + ' v' + newVersion,
-          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (argv.otp ? argv.otp : '')
+          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (argv.otp ? '--otp=' + argv.otp : '')
         ]
           .filter(Boolean)
 
