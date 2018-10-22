@@ -530,8 +530,6 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
 
         var newVersion = maybeInc(answers.version, answers.preid)
 
-        console.log('argv: ', argv)
-
         var commands = [
           'npm version ' + newVersion + (argv.message ? ' --message ' + argv.message : ''),
           answers.setRemote && 'git branch -u ' + answers.remote,
