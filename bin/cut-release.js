@@ -535,7 +535,7 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
           answers.setRemote && 'git branch -u ' + answers.remote,
           answers.remote && 'git push' + remote + branch,
           answers.remote && 'git push' + remote + ' v' + newVersion,
-          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (argv.otp ? ' --otp=' + argv.otp : '')
+          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (otp ? ' --otp=' + otp : '')
         ]
           .filter(Boolean)
 
