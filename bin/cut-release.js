@@ -21,7 +21,6 @@ Object.keys(inquirer.prompt.prompts).forEach(function (prompt) {
   }
 })
 
-
 var argv = yargs.usage("Usage: cut-release [increment] [options]\n\nSupported increments: <semver>, " + SEMVER_INCREMENTS.join(', '))
   .options({
     y: {
@@ -53,6 +52,11 @@ var argv = yargs.usage("Usage: cut-release [increment] [options]\n\nSupported in
       alias: 'messasge',
       describe: 'Version commit message - the %s variable will be replaced with the version',
       type: 'string'
+    },
+    otp: {
+      alias: 'one-time-password',
+      describe: 'NPM one time password. Required if NPM 2FA is enabled',
+      type: 'string'
     }
   })
   .check(function(argv) {
@@ -78,7 +82,8 @@ var version = argv._[0],
     confirm = argv.yes,
     tag = argv.tag,
     preid = argv.preid,
-    dryRun = argv.d
+    dryRun = argv.d,
+    otp = argv.otp;
 
 function log (args) {
   console.log.apply(console, arguments)
@@ -530,7 +535,7 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
           answers.setRemote && 'git branch -u ' + answers.remote,
           answers.remote && 'git push' + remote + branch,
           answers.remote && 'git push' + remote + ' v' + newVersion,
-          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '')
+          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (otp ? ' --otp=' + otp : '')
         ]
           .filter(Boolean)
 
