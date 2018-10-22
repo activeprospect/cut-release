@@ -55,8 +55,7 @@ var argv = yargs.usage("Usage: cut-release [increment] [options]\n\nSupported in
     },
     otp: {
       alias: 'one-time-password',
-      default: '',
-      describe: 'NPM one time password. Required if 2FA is enabled',
+      describe: 'NPM one time password. Required if NPM 2FA is enabled',
       type: 'string'
     }
   })
@@ -538,7 +537,7 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
           answers.setRemote && 'git branch -u ' + answers.remote,
           answers.remote && 'git push' + remote + branch,
           answers.remote && 'git push' + remote + ' v' + newVersion,
-          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (argv.otp ? ' -otp=' + argv.otp : '')
+          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (argv.otp ? ' --otp=' + argv.otp : '')
         ]
           .filter(Boolean)
 
