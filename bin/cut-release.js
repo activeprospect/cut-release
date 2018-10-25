@@ -49,12 +49,12 @@ var argv = yargs.usage("Usage: cut-release [increment] [options]\n\nSupported in
       type: 'boolean'
     },
     m: {
-      alias: 'messasge',
+      alias: 'message',
       describe: 'Version commit message - the %s variable will be replaced with the version',
       type: 'string'
     },
-    otp: {
-      alias: 'one-time-password',
+    1: {
+      alias: 'otp',
       describe: 'NPM one time password. Required if NPM 2FA is enabled',
       type: 'string'
     }
@@ -253,6 +253,18 @@ var prompts = [
       return !answers.tag
     },
     default: 'latest'
+  },
+  {
+    type: 'input',
+    name: 'otp',
+    message: 'Enter an NPM one-time password if you use 2FA',
+    when: function(answers) {
+      if (otp) {
+        answers.otp = otp
+      }
+      return !otp
+    },
+    default: null
   },
   {
     type: 'list',
@@ -535,7 +547,7 @@ maybeSelfUpdate(function (err, shouldSelfUpdate) {
           answers.setRemote && 'git branch -u ' + answers.remote,
           answers.remote && 'git push' + remote + branch,
           answers.remote && 'git push' + remote + ' v' + newVersion,
-          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (otp ? ' --otp=' + otp : '')
+          'npm publish' + (answers.tag ? ' --tag ' + answers.tag : '') + (answers.otp ? ' --otp=' + answers.otp : '')
         ]
           .filter(Boolean)
 

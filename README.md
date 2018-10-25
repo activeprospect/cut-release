@@ -34,7 +34,7 @@ Options:
   -t, --tag                   NPM tag for the release (i.e. latest, next)  [string]
   -p, --preid                 NPM prerelease identifier (i.e. rc, alpha, beta)  [string]
   -d, --dry-run               Print commands to be run, but don't run them  [boolean] [default: false]
-  -m, --messasge              Version commit message - the %s variable will be replaced with the version  [string]
+  -m, --message               Version commit message - the %s variable will be replaced with the version  [string]
   --otp, --one-time-password  NPM one time password. Required if NPM 2FA is enabled  [string]
   -h, --help                  Show help  [boolean]
   -v, --version               Show version number  [boolean]
